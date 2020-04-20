@@ -14,6 +14,7 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
+  var tt = ThemeData.dark().textTheme;
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
@@ -74,7 +75,7 @@ class _DetailsPageState extends State<DetailsPage> {
       child: Container(
         height: 54,
         child: FlatButton(
-          color: ThemeData.dark().accentColor,
+          color: Theme.of(context).accentColor,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -84,7 +85,7 @@ class _DetailsPageState extends State<DetailsPage> {
                 path: 'assets/images/ic_sofa.svg',
               ),
               SizedBox(width: 5),
-              Text('Book seats', style: TextStyle(fontSize: 20)),
+              Text('Book seats', style: tt.title.copyWith(fontSize: 20)),
             ],
           ),
           onPressed: () {
@@ -122,7 +123,11 @@ class _DetailsPageState extends State<DetailsPage> {
             ),
           ),
           Expanded(
-            child: Center(child: Text("The Cinema")),
+            child: Center(
+                child: Text(
+              "The Cinema",
+              style: tt.headline,
+            )),
           ),
           Icon(
             Icons.favorite_border,
@@ -144,7 +149,7 @@ class _DetailsPageState extends State<DetailsPage> {
             },
             child: Icon(
               Icons.play_arrow,
-              color: ThemeData.dark().primaryColor,
+              color: Theme.of(context).primaryColor,
               size: 32.0,
             ),
             backgroundColor: Colors.white,
@@ -308,6 +313,7 @@ class _DetailsPageState extends State<DetailsPage> {
         child: Text(
           widget.result.overview,
           textAlign: TextAlign.justify,
+          style: tt.body2,
         ),
       ),
     );

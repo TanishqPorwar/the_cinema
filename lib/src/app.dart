@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:the_cinema/src/blocs/theme_bloc.dart';
 import 'package:the_cinema/src/ui/login_page.dart';
 import 'package:the_cinema/src/ui/profile_page.dart';
 import 'ui/movie_list.dart';
@@ -7,14 +8,26 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData.dark(),
-      home: HomePage(),
+    return StreamBuilder(
+      stream: tbloc.darkThemeEnabled,
+      initialData: true,
+      builder: (context, snapshot) => MaterialApp(
+        theme: snapshot.data
+            ? ThemeData.dark()
+            : ThemeData.light().copyWith(
+                primaryColor: Colors.teal,
+                accentColor: Colors.teal[600],
+                // textTheme: ThemeData.dark().textTheme,
+              ),
+        home: HomePage(snapshot),
+      ),
     );
   }
 }
 
 class HomePage extends StatefulWidget {
+  var snapshot;
+  HomePage(this.snapshot);
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -35,7 +48,7 @@ class _HomePageState extends State<HomePage> {
             : LoginForm(methodInParent),
         collapsed: Container(
           decoration: BoxDecoration(
-              color: ThemeData.dark().cardColor, borderRadius: radius),
+              color: Theme.of(context).primaryColor, borderRadius: radius),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -54,7 +67,25 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         body: Center(
-          child: MovieList(),
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text('The Cinema'),
+              actions: <Widget>[
+                IconButton(
+                    icon: widget.snapshot.data
+                        ? Icon(Icons.brightness_2)
+                        : Icon(Icons.brightness_7),
+                    onPressed: () {
+                      tbloc.changeTheme(!widget.snapshot.data);
+                    }),
+                // Switch(
+                //   value: widget.snapshot.data,
+                //   onChanged: tbloc.changeTheme,
+                // )
+              ],
+            ),
+            body: MovieList(),
+          ),
         ),
         borderRadius: radius,
         backdropEnabled: true,
@@ -62,7 +93,7 @@ class _HomePageState extends State<HomePage> {
         boxShadow: [
           BoxShadow(color: Colors.black87, blurRadius: 25),
         ],
-        color: ThemeData.dark().primaryColor,
+        color: Theme.of(context).primaryColor,
       ),
     );
   }

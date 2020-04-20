@@ -10,59 +10,54 @@ class MovieList extends StatelessWidget {
     bloc.fetchUpMovies();
     bloc.fetchPopularMovies();
     var mediaQuery = MediaQuery.of(context);
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('The Cinema'),
-        ),
-        body: Column(
-          children: <Widget>[
-            Expanded(
-              child: SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
-                padding: EdgeInsets.only(bottom: 120),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    StreamBuilder(
-                      stream: bloc.nowMovies,
-                      builder: (context, AsyncSnapshot<ItemModel> snapshot) {
-                        if (snapshot.hasData) {
-                          return buildList(
-                              snapshot, mediaQuery, "Now-Showing: ");
-                        } else if (snapshot.hasError) {
-                          return Text(snapshot.error.toString());
-                        }
-                        return Center(child: CircularProgressIndicator());
-                      },
-                    ),
-                    StreamBuilder(
-                      stream: bloc.upMovies,
-                      builder: (context, AsyncSnapshot<ItemModel> snapshot) {
-                        if (snapshot.hasData) {
-                          return buildList(snapshot, mediaQuery, "Up-Coming: ");
-                        } else if (snapshot.hasError) {
-                          return Text(snapshot.error.toString());
-                        }
-                        return Center(child: CircularProgressIndicator());
-                      },
-                    ),
-                    StreamBuilder(
-                      stream: bloc.popularMovies,
-                      builder: (context, AsyncSnapshot<ItemModel> snapshot) {
-                        if (snapshot.hasData) {
-                          return buildList(snapshot, mediaQuery, "Popular: ");
-                        } else if (snapshot.hasError) {
-                          return Text(snapshot.error.toString());
-                        }
-                        return Center(child: CircularProgressIndicator());
-                      },
-                    ),
-                  ],
+    return Column(
+      children: <Widget>[
+        Expanded(
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            padding: EdgeInsets.only(bottom: 120),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                StreamBuilder(
+                  stream: bloc.nowMovies,
+                  builder: (context, AsyncSnapshot<ItemModel> snapshot) {
+                    if (snapshot.hasData) {
+                      return buildList(snapshot, mediaQuery, "Now-Showing: ");
+                    } else if (snapshot.hasError) {
+                      return Text(snapshot.error.toString());
+                    }
+                    return Center(child: CircularProgressIndicator());
+                  },
                 ),
-              ),
+                StreamBuilder(
+                  stream: bloc.upMovies,
+                  builder: (context, AsyncSnapshot<ItemModel> snapshot) {
+                    if (snapshot.hasData) {
+                      return buildList(snapshot, mediaQuery, "Up-Coming: ");
+                    } else if (snapshot.hasError) {
+                      return Text(snapshot.error.toString());
+                    }
+                    return Center(child: CircularProgressIndicator());
+                  },
+                ),
+                StreamBuilder(
+                  stream: bloc.popularMovies,
+                  builder: (context, AsyncSnapshot<ItemModel> snapshot) {
+                    if (snapshot.hasData) {
+                      return buildList(snapshot, mediaQuery, "Popular: ");
+                    } else if (snapshot.hasError) {
+                      return Text(snapshot.error.toString());
+                    }
+                    return Center(child: CircularProgressIndicator());
+                  },
+                ),
+              ],
             ),
-          ],
-        ));
+          ),
+        ),
+      ],
+    );
   }
 
   Widget buildList(AsyncSnapshot<ItemModel> snapshot, MediaQueryData mediaQuery,
