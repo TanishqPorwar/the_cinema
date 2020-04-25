@@ -32,7 +32,7 @@ class _BookSeatSlotState extends State<BookSeatSlot> {
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
     _itemCineTimeSlot = ItemCineTimeSlot(
-        'Arasan Cinemas A/C 2K Dolby', 'Friday, Nov 14, 2019', '', [
+        'Cinema 4K Dolby', '${DateTime.now().weekday} April, 2020', '', [
       ItemTimeSlot('10:00 AM', 10, true),
       ItemTimeSlot('1:30 PM', 13, true),
       ItemTimeSlot('6:30 PM', 6, true),
@@ -41,6 +41,28 @@ class _BookSeatSlotState extends State<BookSeatSlot> {
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     Fluttertoast.showToast(msg: "Success" + response.paymentId);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("E-Ticket"),
+          content: Container(
+            child: Image.network(
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png"),
+          ),
+          contentPadding: EdgeInsets.all(25.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+          ),
+          actions: <Widget>[
+            FlatButton(
+                onPressed: () =>
+                    Navigator.of(context, rootNavigator: true).pop('dialog'),
+                child: Text("OK")),
+          ],
+        );
+      },
+    );
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {

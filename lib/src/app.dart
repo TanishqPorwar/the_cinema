@@ -78,6 +78,11 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () {
                       tbloc.changeTheme(!widget.snapshot.data);
                     }),
+                IconButton(
+                    icon: Icon(Icons.sort),
+                    onPressed: () {
+                      showAlertDialog(context);
+                    }),
                 // Switch(
                 //   value: widget.snapshot.data,
                 //   onChanged: tbloc.changeTheme,
@@ -108,5 +113,90 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       loggedin = false;
     });
+  }
+
+  showAlertDialog(BuildContext context) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Filter"),
+          content: Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Text("Language : "),
+                    DropButton("none", ['Hindi', 'English', 'Kannada']),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Text("Location : "),
+                    DropButton("none", ['Rajajinagar', 'Peenya', 'Whitefield']),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Text("Show-time : "),
+                    DropButton("none", ['10:00 AM', '1:30 PM', '6:30 PM']),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          contentPadding: EdgeInsets.all(25.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+          ),
+          actions: <Widget>[
+            FlatButton(
+                onPressed: () =>
+                    Navigator.of(context, rootNavigator: true).pop('dialog'),
+                child: Text("Apply")),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class DropButton extends StatefulWidget {
+  String cur;
+  List<String> items;
+  DropButton(this.cur, this.items);
+  @override
+  _DropButtonState createState() => _DropButtonState();
+}
+
+class _DropButtonState extends State<DropButton> {
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton(
+      items: widget.items.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: widget.cur,
+          child: Text(value),
+        );
+      }).toList(),
+      onChanged: (String newVal) {
+        setState(() {
+          widget.cur = newVal;
+        });
+      },
+      // icon: Icon(Icons.arrow_downward),
+      iconSize: 24,
+      elevation: 16,
+      style: TextStyle(color: Colors.deepPurple),
+      underline: Container(
+        height: 2,
+        color: Colors.deepPurpleAccent,
+      ),
+    );
   }
 }

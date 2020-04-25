@@ -18,7 +18,7 @@ class _BookSeatTypeState extends State<BookSeatType> {
   @override
   void initState() {
     _itemCineTimeSlot = ItemCineTimeSlot(
-        'Arasan Cinemas A/C 2K Dolby', 'Friday, Nov 14, 2019', '', [
+        'Cinema 4K Dolby', '${DateTime.now().weekday} April, 2020', '', [
       ItemTimeSlot('10:00 AM', 10, true),
       ItemTimeSlot('1:30 PM', 13, true),
       ItemTimeSlot('6:30 PM', 6, true),
