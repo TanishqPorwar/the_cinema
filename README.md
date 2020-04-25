@@ -2,8 +2,21 @@
 
 A movie ticket booking system
 
-# API
-* https://www.themoviedb.org/
+# Features
+* **Login and Register**
+* **Browse Movies**
+* **Filter Movies**
+* **Upcoming Movies**
+* **Details Page**
+* **Seat Selection**
+* **Payment Page**
+* **Order Summary**
+
+# Tech Used
+* **[Flutter](https://flutter.dev/docs)** 
+* **[API](https://www.themoviedb.org/)**
+* **[State Management](https://pub.dev/packages/bloc)**
+* **[Payment Portal](https://razorpay.com/)**
 
 ## Getting Started
 
