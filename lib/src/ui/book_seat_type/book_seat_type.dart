@@ -4,7 +4,9 @@ import 'package:the_cinema/src/ui/book_seat_type/how_many_seats.dart';
 import 'package:the_cinema/src/ui/book_time_slot/book_time_slot_page.dart';
 import 'package:the_cinema/src/ui/book_time_slot/cine_timeslot.dart';
 import 'package:the_cinema/src/ui/conts.dart';
+import 'package:the_cinema/src/ui/svg_image.dart';
 
+// book seat type page
 class BookSeatType extends StatefulWidget {
   var movie;
   BookSeatType(this.movie);
@@ -39,6 +41,7 @@ class _BookSeatTypeState extends State<BookSeatType> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
+                    // show the selected time slot of the theatre
                     WidgetCineTimeSlot.selected(
                       item: _itemCineTimeSlot,
                       selectedIndex: 0,
@@ -46,10 +49,12 @@ class _BookSeatTypeState extends State<BookSeatType> {
                       showCineDot: false,
                     ),
                     SizedBox(height: 14),
+                    // select number of seats and seat type
                     WidgetHowManySeats(),
                   ],
                 ),
               ),
+              // select seat button
               _buildBtnSelectSeat(),
             ],
           ),
@@ -71,6 +76,11 @@ class _BookSeatTypeState extends State<BookSeatType> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text('Select seats', style: FONT_CONST.MEDIUM_WHITE_16),
+              SizedBox(
+                width: 8,
+              ),
+              MySvgImage(
+                  path: "assets/images/ic_sofa.svg", width: 16, height: 16),
             ],
           ),
           onPressed: () {

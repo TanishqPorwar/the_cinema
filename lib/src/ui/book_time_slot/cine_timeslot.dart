@@ -5,7 +5,8 @@ import 'package:the_cinema/src/ui/conts.dart';
 import '../svg_image.dart';
 import 'book_time_slot_page.dart';
 
-class WidgetCineTimeSlot extends StatelessWidget {
+/// the list of time slot for each theatre
+class WidgetCineTimeSlot extends StatefulWidget {
   ItemCineTimeSlot item;
   int selectedIndex = -1;
   bool showCineName = true;
@@ -22,6 +23,11 @@ class WidgetCineTimeSlot extends StatelessWidget {
     // @required this.movie,
   });
 
+  @override
+  _WidgetCineTimeSlotState createState() => _WidgetCineTimeSlotState();
+}
+
+class _WidgetCineTimeSlotState extends State<WidgetCineTimeSlot> {
   BuildContext _context;
 
   @override
@@ -35,11 +41,12 @@ class WidgetCineTimeSlot extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          showCineName
+          // show the theatre name if true
+          widget.showCineName
               ? Row(
                   children: <Widget>[
                     Expanded(
-                      child: Text(item.cineName),
+                      child: Text(widget.item.cineName),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -53,7 +60,8 @@ class WidgetCineTimeSlot extends StatelessWidget {
           SizedBox(height: 4),
           Row(
             children: <Widget>[
-              showCineDot
+              // show the location icon, distance and the loctaion if true
+              widget.showCineDot
                   ? MySvgImage(
                       path: 'assets/images/ic_cine_dot.svg',
                       width: 9.94,
@@ -61,25 +69,27 @@ class WidgetCineTimeSlot extends StatelessWidget {
                       // color: COLOR_CONST.GRAY1,
                     )
                   : Container(),
-              SizedBox(width: showCineDot ? 7 : 0),
+              SizedBox(width: widget.showCineDot ? 7 : 0),
               Text(
-                item.textLocation,
+                widget.item.textLocation,
               ),
               SizedBox(width: 11),
               Text(
-                item.textDistance,
+                widget.item.textDistance,
               ),
             ],
           ),
           SizedBox(height: 16),
+          // show the time slots available for the theatre
           Wrap(
             children: <Widget>[
-              for (final timeSlot in item.timeSlots)
+              for (final timeSlot in widget.item.timeSlots)
                 _WidgetTimeSlot(
                     timeSlot,
-                    item.timeSlots.indexOf(timeSlot) == selectedIndex,
-                    selectedIndex != -1,
-                    movie)
+                    widget.item.timeSlots.indexOf(timeSlot) ==
+                        widget.selectedIndex,
+                    widget.selectedIndex != -1,
+                    widget.movie)
             ],
           )
         ],
@@ -88,7 +98,8 @@ class WidgetCineTimeSlot extends StatelessWidget {
   }
 }
 
-class _WidgetTimeSlot extends StatelessWidget {
+// time slot
+class _WidgetTimeSlot extends StatefulWidget {
   ItemTimeSlot item;
   bool isSelected;
   bool isSmallMode;
@@ -97,38 +108,45 @@ class _WidgetTimeSlot extends StatelessWidget {
   _WidgetTimeSlot(this.item, this.isSelected, this.isSmallMode, this.movie);
 
   @override
+  __WidgetTimeSlotState createState() => __WidgetTimeSlotState();
+}
+
+class __WidgetTimeSlotState extends State<_WidgetTimeSlot> {
+  @override
   Widget build(BuildContext context) {
     var itemWidth = 99.0;
-    var itemHeight = 40.0;
     var fontSize = 14.0;
     var textPaddingHoz = 10.0;
 
     var textStyle = FONT_CONST.REGULAR_BLACK2_14;
-    var timeColor = item.hour % 2 == 0 ? COLOR_CONST.GREEN : COLOR_CONST.ORANGE;
-    if (!item.active) {
+    var timeColor =
+        widget.item.hour % 2 == 0 ? COLOR_CONST.GREEN : COLOR_CONST.ORANGE;
+    if (!widget.item.active) {
       timeColor = COLOR_CONST.BLACK_30;
     }
 
-    var itemBg = isSelected ? COLOR_CONST.GREEN : COLOR_CONST.TIME_SLOT_BG;
+    var itemBg =
+        widget.isSelected ? COLOR_CONST.GREEN : COLOR_CONST.TIME_SLOT_BG;
     var itemBorder =
-        isSelected ? Colors.transparent : COLOR_CONST.TIME_SLOT_BORDER;
+        widget.isSelected ? Colors.transparent : COLOR_CONST.TIME_SLOT_BORDER;
 
-    if (isSelected) {
+    if (widget.isSelected) {
       timeColor = COLOR_CONST.WHITE;
       textStyle = FONT_CONST.MEDIUM_WHITE_14;
     }
 
-    if (isSmallMode) {
+    if (widget.isSmallMode) {
       itemWidth = 84.0;
-      itemHeight = 35.0;
       fontSize = 12.0;
     }
 
     return GestureDetector(
       onTap: () {
-        if (!isSmallMode) {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => BookSeatType(movie)));
+        if (!widget.isSmallMode) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => BookSeatType(widget.movie)));
         }
       },
       child: Container(
@@ -144,7 +162,7 @@ class _WidgetTimeSlot extends StatelessWidget {
             color: itemBg),
         child: Center(
           child: Text(
-            item.time,
+            widget.item.time,
             style: textStyle.copyWith(color: timeColor, fontSize: fontSize),
           ),
         ),

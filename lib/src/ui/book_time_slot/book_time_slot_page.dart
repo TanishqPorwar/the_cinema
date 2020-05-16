@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'cine_timeslot.dart';
 
+// BookTimeSlot Page
 class BookTimeSlotPage extends StatelessWidget {
   var movie;
   BookTimeSlotPage({this.movie});
@@ -58,11 +59,15 @@ class BookTimeSlotPage extends StatelessWidget {
         body: Container(
           child: Column(
             children: <Widget>[
+              // custom appBar
               _buildWidgetAppBar(mediaQuery, context),
+              // Expanded so that the content covers the remaining screen
               Expanded(
                   child: Stack(
                 children: <Widget>[
+                  // list of theatres and their timeslots
                   _buildListCineTimeSlot(),
+                  // bottom button bar which has a datePicker and a language picker
                   _buildBtnToday(),
                 ],
               )),
@@ -74,6 +79,7 @@ class BookTimeSlotPage extends StatelessWidget {
   }
 
   _buildListCineTimeSlot() {
+    // a list of theatres and their show time slots
     return ListView.separated(
       itemBuilder: (context, index) {
         if (index < items.length) {
@@ -93,6 +99,7 @@ class BookTimeSlotPage extends StatelessWidget {
     );
   }
 
+  // date and language pickers
   _buildBtnToday() {
     return Positioned(
       bottom: 0,
@@ -134,16 +141,6 @@ class BookTimeSlotPage extends StatelessWidget {
       ),
     );
   }
-
-  // void openCineDatePicker() {
-  //   showModalBottomSheet(
-  //     backgroundColor: Colors.transparent,
-  //     context: _context,
-  //     builder: (context) {
-  //       return CineDatePickerScreen();
-  //     },
-  //   );
-  // }
 }
 
 class ItemCineTimeSlot {
@@ -156,6 +153,7 @@ class ItemCineTimeSlot {
       this.cineName, this.textLocation, this.textDistance, this.timeSlots);
 }
 
+// Custom appBar
 Widget _buildWidgetAppBar(MediaQueryData mediaQuery, BuildContext context) {
   return Padding(
     padding: EdgeInsets.only(

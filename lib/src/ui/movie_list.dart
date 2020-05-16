@@ -1,13 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../models/item_model.dart';
 import '../blocs/movies_bloc.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'details_page.dart';
+
+List<Widget> imageSliders(List<String> imgList) {
+  return imgList
+      .map(
+        (item) => Container(
+          child: Image.asset(
+            item,
+            fit: BoxFit.contain,
+            // height: 300,
+          ),
+        ),
+      )
+      .toList();
+}
+
+final List<String> imgList = [
+  "assets/images/header1.jpg",
+  "assets/images/header2.jpg",
+  "assets/images/header3.jpg",
+];
 
 class MovieList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // to fetch now showing movies
     bloc.fetchNowMovies();
+    // to fetch up coming movies
     bloc.fetchUpMovies();
+    // to fetch popular movies
     bloc.fetchPopularMovies();
     var mediaQuery = MediaQuery.of(context);
     return Column(
@@ -19,39 +44,10 @@ class MovieList extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                StreamBuilder(
-                  stream: bloc.nowMovies,
-                  builder: (context, AsyncSnapshot<ItemModel> snapshot) {
-                    if (snapshot.hasData) {
-                      return buildList(snapshot, mediaQuery, "Now-Showing: ");
-                    } else if (snapshot.hasError) {
-                      return Text(snapshot.error.toString());
-                    }
-                    return Center(child: CircularProgressIndicator());
-                  },
-                ),
-                StreamBuilder(
-                  stream: bloc.upMovies,
-                  builder: (context, AsyncSnapshot<ItemModel> snapshot) {
-                    if (snapshot.hasData) {
-                      return buildList(snapshot, mediaQuery, "Up-Coming: ");
-                    } else if (snapshot.hasError) {
-                      return Text(snapshot.error.toString());
-                    }
-                    return Center(child: CircularProgressIndicator());
-                  },
-                ),
-                StreamBuilder(
-                  stream: bloc.popularMovies,
-                  builder: (context, AsyncSnapshot<ItemModel> snapshot) {
-                    if (snapshot.hasData) {
-                      return buildList(snapshot, mediaQuery, "Popular: ");
-                    } else if (snapshot.hasError) {
-                      return Text(snapshot.error.toString());
-                    }
-                    return Center(child: CircularProgressIndicator());
-                  },
-                ),
+                _buildSlider(imageSliders(imgList), 3),
+                _streamBuilder(bloc.nowMovies, mediaQuery, "Now-Showing: "),
+                _streamBuilder(bloc.upMovies, mediaQuery, "Up-Coming: "),
+                _streamBuilder(bloc.popularMovies, mediaQuery, "Popular: ")
               ],
             ),
           ),
@@ -60,6 +56,50 @@ class MovieList extends StatelessWidget {
     );
   }
 
+  Widget _buildSlider(imageSliders, s) {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          CarouselSlider(
+            options: CarouselOptions(
+              height: 150,
+              autoPlay: true,
+              autoPlayInterval: Duration(seconds: s),
+              enlargeCenterPage: true,
+            ),
+            items: imageSliders,
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// builds list of movies from the stream
+  Widget _streamBuilder(
+      Stream<ItemModel> stream, MediaQueryData mediaQuery, String title) {
+    return StreamBuilder(
+      stream: stream,
+      builder: (context, AsyncSnapshot<ItemModel> snapshot) {
+        // if the snapshot of the stream has data
+        // then build the movie list
+        if (snapshot.hasData) {
+          return buildList(snapshot, mediaQuery, title);
+        } else if (snapshot.hasError) {
+          return Text(snapshot.error.toString());
+        }
+        // if data not yet loaded return a loader
+        return Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 50),
+            child:
+                SpinKitWave(color: Colors.green, type: SpinKitWaveType.center),
+          ),
+        );
+      },
+    );
+  }
+
+  /// build the movie list from the [snapshot.data]
   Widget buildList(AsyncSnapshot<ItemModel> snapshot, MediaQueryData mediaQuery,
       String title) {
     return Column(
@@ -89,10 +129,15 @@ class MovieList extends StatelessWidget {
                     right:
                         index == snapshot.data.results.length - 1 ? 16.0 : 0.0,
                   ),
+
+                  // create a tapable card
                   child: GestureDetector(
                     child: Card(
+                      // give the card a circular rectangle shape
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
+                        // if the movie has a poster path the show the poster
+                        // else show another image
                         child: Image.network(
                           (snapshot.data.results[index].poster_path != null)
                               ? 'https://image.tmdb.org/t/p/w185${snapshot.data.results[index].poster_path}'
@@ -101,6 +146,7 @@ class MovieList extends StatelessWidget {
                         ),
                       ),
                     ),
+                    // goto details page on tap
                     onTap: () {
                       Navigator.push(
                         context,

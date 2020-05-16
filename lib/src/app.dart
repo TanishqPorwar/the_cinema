@@ -8,6 +8,10 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    /// [StreamBuilder] to change the theme of the app
+    /// checks if the [tbloc.darkThemeEnabled] snapshot data
+    /// is true then sets theme to dark
+    /// if its false, then light theme
     return StreamBuilder(
       stream: tbloc.darkThemeEnabled,
       initialData: true,
@@ -17,7 +21,6 @@ class App extends StatelessWidget {
             : ThemeData.light().copyWith(
                 primaryColor: Colors.teal,
                 accentColor: Colors.teal[600],
-                // textTheme: ThemeData.dark().textTheme,
               ),
         home: HomePage(snapshot),
       ),
@@ -33,7 +36,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  // var to check if the user is logged-in
   bool loggedin = false;
+  // the border radius of the collapsed slide-up panel
   BorderRadiusGeometry radius = BorderRadius.only(
     topLeft: Radius.circular(24.0),
     topRight: Radius.circular(24.0),
@@ -42,11 +47,19 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // the body of the app is the slidingUpPanel
       body: SlidingUpPanel(
+        /// this is seen when the panel is open
+        /// if the user is logged-in then the panel
+        /// is the [ProfilePage], if notthen its the [LoginForm]
         panel: (loggedin)
+            // passing method, that updates the state of the homePage
             ? ProfilePage(methodInParent2)
             : LoginForm(methodInParent),
+
+        // this is seen when the panel is closed
         collapsed: Container(
+          // giving it a border radius
           decoration: BoxDecoration(
               color: Theme.of(context).primaryColor, borderRadius: radius),
           child: Center(
@@ -57,7 +70,9 @@ class _HomePageState extends State<HomePage> {
                   "Profile",
                   style: TextStyle(fontSize: 20),
                 ),
+                // gap
                 SizedBox(height: 20),
+                // circular rectangle
                 ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
                     child: Container(
@@ -66,11 +81,16 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
+
+        // the main body of the slidingUpPanel
         body: Center(
           child: Scaffold(
+            // appBar
             appBar: AppBar(
+              // title
               title: Text('The Cinema'),
               actions: <Widget>[
+                // Icon button to toggle between dark and light theme
                 IconButton(
                     icon: widget.snapshot.data
                         ? Icon(Icons.brightness_2)
@@ -78,11 +98,14 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () {
                       tbloc.changeTheme(!widget.snapshot.data);
                     }),
+
+                // Icon button to filter the movies
                 IconButton(
                     icon: Icon(Icons.sort),
                     onPressed: () {
                       showAlertDialog(context);
                     }),
+                // can use a switch instead  of a icon button
                 // Switch(
                 //   value: widget.snapshot.data,
                 //   onChanged: tbloc.changeTheme,
@@ -90,6 +113,29 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             body: MovieList(),
+            drawer: Drawer(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: <Widget>[
+                  DrawerHeader(
+                    child: Text('Menu'),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                  ListTile(
+                    title: Text('Booking'),
+                    leading: Icon(Icons.card_membership),
+                    onTap: () {},
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.info),
+                    title: Text('About'),
+                    onTap: () {},
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
         borderRadius: radius,
@@ -103,6 +149,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  /// these methods are called from the [loginForm] and [ProfilePage] to set
+  /// the state of the home page
   methodInParent() {
     setState(() {
       loggedin = true;
@@ -115,8 +163,11 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  // alert dialog to filter
   showAlertDialog(BuildContext context) {
     showDialog(
+      // if barrierDismissible is true, alertDialog is dismissed
+      // if user taps outside the dialog
       barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
@@ -126,6 +177,7 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
+                // dropdown buttons
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
@@ -155,6 +207,7 @@ class _HomePageState extends State<HomePage> {
             borderRadius: BorderRadius.all(Radius.circular(20.0)),
           ),
           actions: <Widget>[
+            // apply button, onPressed closes the alert dialog
             FlatButton(
                 onPressed: () =>
                     Navigator.of(context, rootNavigator: true).pop('dialog'),
@@ -166,8 +219,11 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
+// DropDownButton
 class DropButton extends StatefulWidget {
+  // the current of intial string that is selected
   String cur;
+  // list of items in the dropDown menu
   List<String> items;
   DropButton(this.cur, this.items);
   @override
@@ -189,7 +245,6 @@ class _DropButtonState extends State<DropButton> {
           widget.cur = newVal;
         });
       },
-      // icon: Icon(Icons.arrow_downward),
       iconSize: 24,
       elevation: 16,
       style: TextStyle(color: Colors.deepPurple),

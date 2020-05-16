@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginForm extends StatefulWidget {
   Function function;
@@ -80,6 +81,7 @@ class _LoginFormState extends State<LoginForm> {
                     onPressed: () {
                       // widget.parent{
                       widget.function();
+                      Fluttertoast.showToast(msg: "Welcome!!");
                       // };
                     },
                   ),
@@ -133,7 +135,9 @@ class _LoginFormState extends State<LoginForm> {
                     data: "register",
                     padding: const EdgeInsets.symmetric(
                         horizontal: 30, vertical: 10),
-                    onPressed: () {}),
+                    onPressed: () {
+                      Fluttertoast.showToast(msg: "Registered");
+                    }),
               ],
             ),
 
