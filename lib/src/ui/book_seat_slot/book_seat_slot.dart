@@ -7,7 +7,7 @@ import 'package:the_cinema/src/ui/book_time_slot/book_time_slot_page.dart';
 import 'package:the_cinema/src/ui/book_time_slot/cine_timeslot.dart';
 import 'package:the_cinema/src/ui/conts.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 
 class BookSeatSlot extends StatefulWidget {
   @override
@@ -40,7 +40,7 @@ class _BookSeatSlotState extends State<BookSeatSlot> {
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    Fluttertoast.showToast(msg: "Success" + response.paymentId);
+    // Fluttertoast.showToast(msg: "Success" + response.paymentId);
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -66,12 +66,12 @@ class _BookSeatSlotState extends State<BookSeatSlot> {
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
-    Fluttertoast.showToast(
-        msg: "Error: " + response.code.toString() + " - " + response.message);
+    // Fluttertoast.showToast(
+    // msg: "Error: " + response.code.toString() + " - " + response.message);
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
-    Fluttertoast.showToast(msg: "Wallet: " + response.walletName);
+    // Fluttertoast.showToast(msg: "Wallet: " + response.walletName);
   }
 
   @override
