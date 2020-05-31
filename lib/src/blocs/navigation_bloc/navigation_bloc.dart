@@ -56,14 +56,12 @@ class NavigationBloc extends Bloc<NavigationEvents, NavigationState> {
       case NavigationEvents.BookingClickEvent:
         yield BookingPage(
           onMenuTap: onMenuTap,
-          // changeTheme: changeTheme,
         );
         break;
 
       case NavigationEvents.AboutClickEvent:
         yield AboutPage(
           onMenuTap: onMenuTap,
-          // changeTheme: changeTheme,
         );
         break;
     }

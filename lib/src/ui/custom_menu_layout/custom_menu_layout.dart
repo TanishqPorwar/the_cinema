@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:the_cinema/src/blocs/theme_bloc.dart';
+import 'package:the_cinema/src/ui/navigation_pages/about_page.dart';
+import 'package:the_cinema/src/ui/navigation_pages/booking_page.dart';
+import 'package:the_cinema/src/ui/navigation_pages/home_page.dart';
 import 'package:the_cinema/src/ui/profile_page.dart';
 import 'menu.dart';
 import 'dashboard.dart';
@@ -53,6 +56,13 @@ class _CustomMenuLayoutState extends State<CustomMenuLayout>
     });
   }
 
+  void onMenuItemClicked() {
+    setState(() {
+      _controller.reverse();
+      isCollapsed = !isCollapsed;
+    });
+  }
+
   void changeTheme() {
     setState(() {
       tbloc.changeTheme(!widget.snapshot.data);
@@ -77,9 +87,15 @@ class _CustomMenuLayoutState extends State<CustomMenuLayout>
         ),
         child: Stack(
           children: <Widget>[
-            Menu(
-              slideAnimation: _slideAnimation,
-              scaleAnimation: _menuScaleAnimation,
+            BlocBuilder<NavigationBloc, NavigationState>(
+              builder: (context, state) {
+                return Menu(
+                  slideAnimation: _slideAnimation,
+                  scaleAnimation: _menuScaleAnimation,
+                  selectedIndex: mapStateToIndex(state),
+                  onMenuItemClicked: onMenuItemClicked,
+                );
+              },
             ),
             Dashboard(
               duration: duration,
@@ -111,5 +127,17 @@ class _CustomMenuLayoutState extends State<CustomMenuLayout>
     setState(() {
       loggedin = false;
     });
+  }
+
+  mapStateToIndex(state) {
+    if (state is Home) {
+      return 0;
+    } else if (state is BookingPage) {
+      return 1;
+    } else if (state is AboutPage) {
+      return 2;
+    } else {
+      return 0;
+    }
   }
 }

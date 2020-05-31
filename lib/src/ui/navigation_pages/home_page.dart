@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:the_cinema/src/blocs/theme_bloc.dart';
 import 'package:the_cinema/src/ui/login_page.dart';
 import 'package:the_cinema/src/ui/movie_list.dart';
 import 'package:the_cinema/src/ui/profile_page.dart';

@@ -3,8 +3,10 @@ import 'package:the_cinema/src/blocs/navigation_bloc/navigation_bloc.dart';
 
 class AboutPage extends StatelessWidget with NavigationState {
   final Function onMenuTap;
+  final bool isCollapsed;
 
-  const AboutPage({Key key, this.onMenuTap}) : super(key: key);
+  const AboutPage({Key key, this.onMenuTap, this.isCollapsed})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
