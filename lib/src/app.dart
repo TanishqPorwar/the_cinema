@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:the_cinema/src/blocs/theme_bloc.dart';
 import 'package:the_cinema/src/ui/custom_menu_layout/custom_menu_layout.dart';
@@ -13,6 +14,8 @@ class App extends StatelessWidget {
       stream: tbloc.darkThemeEnabled,
       initialData: true,
       builder: (context, snapshot) => MaterialApp(
+        builder: BotToastInit(), //1. call BotToastInit
+        navigatorObservers: [BotToastNavigatorObserver()],
         theme: snapshot.data
             ? ThemeData.dark()
             : ThemeData.light().copyWith(

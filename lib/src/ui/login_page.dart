@@ -1,9 +1,8 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginForm extends StatefulWidget {
-  Function function;
-  LoginForm(this.function);
   @override
   _LoginFormState createState() => _LoginFormState();
 }
@@ -31,7 +30,7 @@ class _LoginFormState extends State<LoginForm> {
           children: <Widget>[
             Text(
               'Sign In',
-              style: Theme.of(context).textTheme.title,
+              style: Theme.of(context).textTheme.headline6,
             ),
 
             // gap
@@ -79,10 +78,12 @@ class _LoginFormState extends State<LoginForm> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 30, vertical: 10),
                     onPressed: () {
-                      // widget.parent{
-                      widget.function();
-                      // Fluttertoast.showToast(msg: "Welcome!!");
-                      // };
+                      // TODO
+                      BotToast.showText(
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 20, horizontal: 10),
+                          text: "Logged out successfully",
+                          align: Alignment.bottomCenter);
                     },
                   ),
                 ),
