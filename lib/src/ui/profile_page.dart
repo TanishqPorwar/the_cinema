@@ -1,9 +1,8 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:the_cinema/src/ui/login_page.dart';
 
 class ProfilePage extends StatelessWidget {
-  Function function;
-  ProfilePage(this.function);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,7 +22,12 @@ class ProfilePage extends StatelessWidget {
             BuildButton(
                 data: "Logout",
                 onPressed: () {
-                  function();
+                  // TODO
+                  BotToast.showText(
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                      text: "Login Successful",
+                      align: Alignment.bottomCenter);
                 }),
           ],
         ),

@@ -13,16 +13,12 @@ enum NavigationEvents {
 abstract class NavigationState {}
 
 class NavigationBloc extends Bloc<NavigationEvents, NavigationState> {
-  final Function methodInParent;
-  final Function methodInParent2;
   final bool loggedin;
   final AsyncSnapshot<dynamic> snapshot;
   final Function onMenuTap;
   final Function changeTheme;
 
   NavigationBloc({
-    this.methodInParent,
-    this.methodInParent2,
     this.loggedin,
     this.snapshot,
     this.onMenuTap,
@@ -31,8 +27,6 @@ class NavigationBloc extends Bloc<NavigationEvents, NavigationState> {
 
   @override
   get initialState => Home(
-        methodInParent: methodInParent,
-        methodInParent2: methodInParent2,
         onMenuTap: onMenuTap,
         loggedin: loggedin,
         changeTheme: changeTheme,
@@ -44,8 +38,6 @@ class NavigationBloc extends Bloc<NavigationEvents, NavigationState> {
     switch (event) {
       case NavigationEvents.HomeClickEvent:
         yield Home(
-          methodInParent: methodInParent,
-          methodInParent2: methodInParent2,
           onMenuTap: onMenuTap,
           loggedin: loggedin,
           changeTheme: changeTheme,

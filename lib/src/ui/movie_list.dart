@@ -46,8 +46,8 @@ class MovieList extends StatelessWidget {
               children: <Widget>[
                 _buildSlider(imageSliders(imgList), 3),
                 _streamBuilder(bloc.nowMovies, mediaQuery, "Now-Showing: "),
+                _streamBuilder(bloc.popularMovies, mediaQuery, "Popular: "),
                 _streamBuilder(bloc.upMovies, mediaQuery, "Up-Coming: "),
-                _streamBuilder(bloc.popularMovies, mediaQuery, "Popular: ")
               ],
             ),
           ),

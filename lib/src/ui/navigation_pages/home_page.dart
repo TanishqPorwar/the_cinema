@@ -6,8 +6,6 @@ import 'package:the_cinema/src/ui/profile_page.dart';
 import 'package:the_cinema/src/blocs/navigation_bloc/navigation_bloc.dart';
 
 class Home extends StatelessWidget with NavigationState {
-  final Function methodInParent;
-  final Function methodInParent2;
   final bool loggedin;
   final AsyncSnapshot<dynamic> snapshot;
   final Function onMenuTap;
@@ -15,8 +13,6 @@ class Home extends StatelessWidget with NavigationState {
 
   const Home({
     Key key,
-    this.methodInParent,
-    this.methodInParent2,
     this.loggedin,
     this.snapshot,
     this.onMenuTap,
@@ -35,8 +31,9 @@ class Home extends StatelessWidget with NavigationState {
         /// is the [ProfilePage], if notthen its the [LoginForm]
         panel: (loggedin)
             // passing method, that updates the state of the homepage
-            ? ProfilePage(methodInParent2)
-            : LoginForm(methodInParent),
+            ? ProfilePage()
+            : LoginForm(),
+        // : ProfilePage(),
 
         // this is seen when the panel is closed
         collapsed: Container(

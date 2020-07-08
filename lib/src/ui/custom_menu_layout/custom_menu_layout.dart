@@ -4,7 +4,6 @@ import 'package:the_cinema/src/blocs/theme_bloc.dart';
 import 'package:the_cinema/src/ui/navigation_pages/about_page.dart';
 import 'package:the_cinema/src/ui/navigation_pages/booking_page.dart';
 import 'package:the_cinema/src/ui/navigation_pages/home_page.dart';
-import 'package:the_cinema/src/ui/profile_page.dart';
 import 'menu.dart';
 import 'dashboard.dart';
 import 'package:the_cinema/src/blocs/navigation_bloc/navigation_bloc.dart';
@@ -78,8 +77,6 @@ class _CustomMenuLayoutState extends State<CustomMenuLayout>
       // the body of the app is the slidingUpPanel
       body: BlocProvider<NavigationBloc>(
         create: (context) => NavigationBloc(
-          methodInParent: methodInParent,
-          methodInParent2: methodInParent2,
           onMenuTap: onMenuTap,
           snapshot: widget.snapshot,
           loggedin: loggedin,
@@ -113,20 +110,6 @@ class _CustomMenuLayoutState extends State<CustomMenuLayout>
         ),
       ),
     );
-  }
-
-  /// these methods are called from the [loginForm] and [ProfilePage] to set
-  /// the state of the home page
-  methodInParent() {
-    setState(() {
-      loggedin = true;
-    });
-  }
-
-  methodInParent2() {
-    setState(() {
-      loggedin = false;
-    });
   }
 
   mapStateToIndex(state) {
