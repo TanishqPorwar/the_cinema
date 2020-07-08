@@ -3,6 +3,8 @@
 A movie ticket booking system
 
 # Features
+* **Custom Menu Layout and Animation**<br/><br/>
+   <img src="screenshots/menu.gif"><br/><br/>
 * **Login and Register**<br/><br/>
    <img src="screenshots/login.gif"><br/><br/>
 * **Browse Movies**<br/><br/>
